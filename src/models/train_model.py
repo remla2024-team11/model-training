@@ -65,6 +65,12 @@ def save_model(model, filepath):
     """
     model.save(filepath)
 
+def save_model_as_pickle(model, filepath):
+    """
+    Saves model as a pickle file.
+    """
+    with open(filepath, 'wb') as f:
+        pickle.dump(model, f)
 
 if __name__ == '__main__':
     # Dependency
@@ -99,3 +105,5 @@ if __name__ == '__main__':
     # Save the trained model
     MODEL_OUTPUT_FILEPATH = 'models/model.keras'
     save_model(model, MODEL_OUTPUT_FILEPATH)
+    PICKLE_MODEL_OUTPUT_FILEPATH = 'models/model.pkl'
+    save_model_as_pickle(model, PICKLE_MODEL_OUTPUT_FILEPATH)

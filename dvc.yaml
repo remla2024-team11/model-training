@@ -20,6 +20,7 @@ stages:
     - src/models/train_model.py
     outs:
     - models/model.keras
+    - models/model.pkl
   evaluate:
     cmd: python src/models/evaluation.py
     deps:
