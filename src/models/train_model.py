@@ -72,7 +72,6 @@ def save_pickle_model(model, filepath):
     with open(filepath.replace('.keras', '.pkl'), 'wb') as f:
         pickle.dump(model, f)
 
-
 if __name__ == '__main__':
     # Dependency
     with open('models/char_index.pkl', 'rb') as f:
@@ -108,3 +107,4 @@ if __name__ == '__main__':
     save_model(model, MODEL_OUTPUT_FILEPATH)
     MODEL_OUTPUT_PKL_FILEPATH = 'models/model.pkl'
     save_pickle_model(model, MODEL_OUTPUT_PKL_FILEPATH)
+    
