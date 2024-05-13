@@ -21,13 +21,11 @@ def read_data(data_file):
         data_lines = f.readlines()[1:]
 
     data = [line.strip() for line in data_lines]
-    raw_x_data = [line.split("\t")[1] for line in data]
-    raw_y_data = [line.split("\t")[0] for line in data]
-
-    return raw_x_data, raw_y_data
+    
+    return data
 
 
-def process(input_filepath, output_filepath):
+def process(input_filepath, output_filepath, model_path):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
@@ -37,13 +35,11 @@ def process(input_filepath, output_filepath):
 
     x_train, y_train, x_val, y_val, x_test, y_test = preprocessing.fit_transform(train, test, val, sequence_length=200)
 
-    tokenizer = preprocessing.get_tokenizer()
-
-    with open(os.path.join(output_filepath, 'tokenizer.pkl'), 'wb') as f:
-        pickle.dump(tokenizer, f)
-
     # Save processed data
     os.makedirs(output_filepath, exist_ok=True)
+    tokenizer = preprocessing.get_tokenizer()
+    with open(os.path.join(model_path, 'tokenizer.pkl'), 'wb') as f:
+        pickle.dump(tokenizer.word_index, f)
     np.save(os.path.join(output_filepath, 'x_train.npy'), x_train)
     np.save(os.path.join(output_filepath, 'x_val.npy'), x_val)
     np.save(os.path.join(output_filepath, 'x_test.npy'), x_test)
@@ -53,4 +49,4 @@ def process(input_filepath, output_filepath):
 
 
 if __name__ == '__main__':
-    process(sys.argv[1], sys.argv[2])
+    process(sys.argv[1], sys.argv[2], sys.argv[3])

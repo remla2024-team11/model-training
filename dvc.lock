@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   prepare:
-    cmd: python src/data/make_dataset.py data/raw data/processed
+    cmd: python src/data/make_dataset.py data/raw data/processed models
     deps:
     - path: data/raw/test.txt
       hash: md5
@@ -17,15 +17,15 @@ stages:
       size: 46258330
     - path: src/data/make_dataset.py
       hash: md5
-      md5: 4029d60f9fd2c3c0fcda82e7e9fd1740
-      size: 2913
+      md5: 3ea5e8a3d0a7998ab71810f4ea8028c1
+      size: 1824
     outs:
     - path: data/processed
       hash: md5
       md5: 3edd2f149067efab16f42cad6c95bc98.dir
       size: 1555441976
       nfiles: 6
-    - path: models/char_index.pkl
+    - path: models/tokenizer.pkl
       hash: md5
       md5: 941dc7e5461b0a429941866a00102b8c
       size: 444
@@ -48,22 +48,22 @@ stages:
       hash: md5
       md5: 7d7c949969abb0303ea9373bf519cc84
       size: 4120760
-    - path: models/char_index.pkl
+    - path: models/tokenizer.pkl
       hash: md5
       md5: 941dc7e5461b0a429941866a00102b8c
       size: 444
     - path: src/models/train_model.py
       hash: md5
-      md5: 029183827c1bb5da747af117899ff5cb
-      size: 3438
+      md5: 0fc7180dd7531843344181d3516f4dda
+      size: 3437
     outs:
     - path: models/model.keras
       hash: md5
-      md5: 7e0c2230ed72306f87c7b47e2cdae6c3
+      md5: 70cb54a581a8e5b3fb0360dbdfcfba99
       size: 5472435
     - path: models/model.pkl
       hash: md5
-      md5: d07e0ebda2897a9197c5c1d4454ff9a0
+      md5: a89ecd84f8fa479fa6e7b0a87aa571b6
       size: 5472586
   evaluate:
     cmd: python src/models/evaluation.py
@@ -78,7 +78,7 @@ stages:
       size: 2913712
     - path: models/model.keras
       hash: md5
-      md5: 7e0c2230ed72306f87c7b47e2cdae6c3
+      md5: 70cb54a581a8e5b3fb0360dbdfcfba99
       size: 5472435
     - path: src/models/evaluation.py
       hash: md5

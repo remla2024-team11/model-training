@@ -2,3 +2,4 @@
 /model.keras
 /char_index.pkl
 /model.pkl
+/tokenizer.pkl

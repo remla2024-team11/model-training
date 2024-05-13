@@ -1,6 +1,6 @@
 stages:
   prepare:
-    cmd: python src/data/make_dataset.py data/raw data/processed
+    cmd: python src/data/make_dataset.py data/raw data/processed models
     deps:
     - data/raw/test.txt
     - data/raw/train.txt
@@ -8,7 +8,7 @@ stages:
     - src/data/make_dataset.py
     outs:
     - data/processed
-    - models/char_index.pkl
+    - models/tokenizer.pkl
   train:
     cmd: python src/models/train_model.py
     deps:
@@ -16,7 +16,7 @@ stages:
     - data/processed/x_val.npy
     - data/processed/y_train.npy
     - data/processed/y_val.npy
-    - models/char_index.pkl
+    - models/tokenizer.pkl
     - src/models/train_model.py
     outs:
     - models/model.keras
