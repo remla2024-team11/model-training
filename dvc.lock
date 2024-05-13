@@ -1,0 +1,86 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/data/make_dataset.py data/raw data/processed models
+    deps:
+    - path: data/raw/test.txt
+      hash: md5
+      md5: a1cab28ad8554fd9269d31e5708469d0
+      size: 32724891
+    - path: data/raw/train.txt
+      hash: md5
+      md5: 13fd241a41370119612d5b00b0433009
+      size: 93921671
+    - path: data/raw/val.txt
+      hash: md5
+      md5: 7b1e28b1e91582c6f36e85517c3cc6ee
+      size: 46258330
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: b3a31a7426ed3e315eec34917b39ff3c
+      size: 1927
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 3edd2f149067efab16f42cad6c95bc98.dir
+      size: 1555441976
+      nfiles: 6
+    - path: models/char_index.pkl
+      hash: md5
+      md5: 941dc7e5461b0a429941866a00102b8c
+      size: 444
+  train:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/processed/x_train.npy
+      hash: md5
+      md5: d81af1c35a77cdeac4d8ccee76cc939e
+      size: 836619328
+    - path: data/processed/x_val.npy
+      hash: md5
+      md5: 22128e9681506e90a2b437d45da5f8cf
+      size: 412063328
+    - path: data/processed/y_train.npy
+      hash: md5
+      md5: 9b660634af0db95a6e2932208bc73b91
+      size: 8366320
+    - path: data/processed/y_val.npy
+      hash: md5
+      md5: 7d7c949969abb0303ea9373bf519cc84
+      size: 4120760
+    - path: models/char_index.pkl
+      hash: md5
+      md5: 941dc7e5461b0a429941866a00102b8c
+      size: 444
+    - path: src/models/train_model.py
+      hash: md5
+      md5: 029183827c1bb5da747af117899ff5cb
+      size: 3438
+    outs:
+    - path: models/model.keras
+      hash: md5
+      md5: 7e0c2230ed72306f87c7b47e2cdae6c3
+      size: 5472435
+    - path: models/model.pkl
+      hash: md5
+      md5: d07e0ebda2897a9197c5c1d4454ff9a0
+      size: 5472586
+  evaluate:
+    cmd: python src/models/evaluation.py
+    deps:
+    - path: data/processed/x_test.npy
+      hash: md5
+      md5: 23fa98d19a833016d86142c36cecda27
+      size: 291358528
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: 86612dc0b79d11ee7dcf2d30c62811eb
+      size: 2913712
+    - path: models/model.keras
+      hash: md5
+      md5: 7e0c2230ed72306f87c7b47e2cdae6c3
+      size: 5472435
+    - path: src/models/evaluation.py
+      hash: md5
+      md5: 0879f540b5efc1a85eb72048d0a21a5c
+      size: 1546
