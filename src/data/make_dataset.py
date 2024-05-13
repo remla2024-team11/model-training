@@ -8,10 +8,10 @@ import os
 import pickle
 import sys
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
-from keras._tf_keras.keras.preprocessing.text import Tokenizer
-from keras._tf_keras.keras.preprocessing.sequence import pad_sequences
+from lib_ml_team11 import Preprocessing
 
+# Create an instance of the Preprocessing class
+preprocessing = Preprocessing()
 
 def read_data(data_file):
     """
@@ -27,39 +27,20 @@ def read_data(data_file):
     return raw_x_data, raw_y_data
 
 
-def tokenize_data(raw_x_train, raw_x_val, raw_x_test, raw_y_train, raw_y_val, raw_y_test):
-    """
-    Tokenizes the data using the given tokenizer.
-    """
-    tokenizer = Tokenizer(lower=True, char_level=True, oov_token='-n-')
-    tokenizer.fit_on_texts(raw_x_train + raw_x_val + raw_x_test)
-    char_index = tokenizer.word_index
-    with open('models/char_index.pkl', 'wb') as f:
-        pickle.dump(char_index, f)
-
-    sequence_length = 200
-    x_train = pad_sequences(tokenizer.texts_to_sequences(raw_x_train), maxlen=sequence_length)
-    x_val = pad_sequences(tokenizer.texts_to_sequences(raw_x_val), maxlen=sequence_length)
-    x_test = pad_sequences(tokenizer.texts_to_sequences(raw_x_test), maxlen=sequence_length)
-
-    encoder = LabelEncoder()
-    y_train = encoder.fit_transform(raw_y_train)
-    y_val = encoder.transform(raw_y_val)
-    y_test = encoder.transform(raw_y_test)
-
-    return x_train, x_val, x_test, y_train, y_val, y_test
-
-
 def process(input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
-    raw_x_train, raw_y_train = read_data(os.path.join(input_filepath, 'train.txt'))
-    raw_x_val, raw_y_val = read_data(os.path.join(input_filepath, 'val.txt'))
-    raw_x_test, raw_y_test = read_data(os.path.join(input_filepath, 'test.txt'))
+    train = read_data(os.path.join(input_filepath, 'train.txt'))
+    val = read_data(os.path.join(input_filepath, 'val.txt'))
+    test = read_data(os.path.join(input_filepath, 'test.txt'))
 
-    x_train, x_val, x_test, y_train, y_val, y_test = tokenize_data(raw_x_train, raw_x_val, raw_x_test,
-                                                                   raw_y_train, raw_y_val, raw_y_test)
+    x_train, y_train, x_val, y_val, x_test, y_test = preprocessing.fit_transform(train, test, val, sequence_length=200)
+
+    tokenizer = preprocessing.get_tokenizer()
+
+    with open(os.path.join(output_filepath, 'tokenizer.pkl'), 'wb') as f:
+        pickle.dump(tokenizer, f)
 
     # Save processed data
     os.makedirs(output_filepath, exist_ok=True)
