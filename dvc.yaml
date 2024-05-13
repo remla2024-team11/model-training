@@ -8,7 +8,7 @@ stages:
     - src/data/make_dataset.py
     outs:
     - data/processed
-    - models/tokenizer.pkl
+    - models/char_index.pkl
   train:
     cmd: python src/models/train_model.py
     deps:
@@ -16,7 +16,7 @@ stages:
     - data/processed/x_val.npy
     - data/processed/y_train.npy
     - data/processed/y_val.npy
-    - models/tokenizer.pkl
+    - models/char_index.pkl
     - src/models/train_model.py
     outs:
     - models/model.keras

@@ -38,8 +38,10 @@ def process(input_filepath, output_filepath, model_path):
     # Save processed data
     os.makedirs(output_filepath, exist_ok=True)
     tokenizer = preprocessing.get_tokenizer()
-    with open(os.path.join(model_path, 'tokenizer.pkl'), 'wb') as f:
+    with open(os.path.join(model_path, 'char_index.pkl'), 'wb') as f:
         pickle.dump(tokenizer.word_index, f)
+    with open(os.path.join(model_path, 'tokenizer.pkl'), 'wb') as f:
+        pickle.dump(tokenizer, f)
     np.save(os.path.join(output_filepath, 'x_train.npy'), x_train)
     np.save(os.path.join(output_filepath, 'x_val.npy'), x_val)
     np.save(os.path.join(output_filepath, 'x_test.npy'), x_test)

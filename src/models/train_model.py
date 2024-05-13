@@ -74,7 +74,7 @@ def save_pickle_model(model, filepath):
 
 if __name__ == '__main__':
     # Dependency
-    with open('models/tokenizer.pkl', 'rb') as f:
+    with open('models/char_index.pkl', 'rb') as f:
         char_index = pickle.load(f)
     params = {'loss_function': 'binary_crossentropy',
               'optimizer': 'adam',
